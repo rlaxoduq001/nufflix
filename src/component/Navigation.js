@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 export const Navigation = () => {
   return (
     <div>
-      <Navbar expand="lg" variant='dark' bg="dark">
+      <Navbar expand="lg" variant='dark' bg="black">
         <Container fluid>
           <Navbar.Brand href="#">
             <img 
