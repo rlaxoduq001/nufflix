@@ -40,7 +40,7 @@ export const MovieDetail = () => {
     }else {
       setTabKey('tab2');
     } 
-  } 
+  }
 
   const openModal = () => {
     setModalShow(true);
@@ -51,14 +51,14 @@ export const MovieDetail = () => {
     <div style={{background:"black", color:'white',padding: "20px"}}>
       <Container>
         <Row>
-          <Col>
+          <Col xs={12} md={6}>
             <BackgroundImg
               src={movieDetail && movieDetail.poster_path ? 
                 `https://image.tmdb.org/t/p/w300_and_h450_bestv2/${movieDetail.poster_path}` : 
                 "https://cdn2.iconfinder.com/data/icons/admin-tools-2/25/image2-512.png"}
             />
           </Col>
-          <Col>
+          <Col xs={12} md={6}>
             <BadgeContainer>
               {movieDetail.genres?.map((item,idx) => (
                 <Badge style={{ fontSize: '1.5em', padding: '0.5em' }} bg="danger" key={idx}>
