@@ -4,6 +4,10 @@ let initialState = {
   popularMovies: {},
   topRatedMovies: {},
   upComingMovies : {},
+  genreList: [],
+  movieDetail : {},
+  movieReview : {},
+  movieRecommend: {}
 }
  
 const movieSlice = createSlice({
@@ -14,6 +18,16 @@ const movieSlice = createSlice({
       state.popularMovies = action.payload.popularMovies;
       state.topRatedMovies = action.payload.topRatedMovies;
       state.upComingMovies = action.payload.upComingMovies;
+      state.genreList = action.payload.genreList;
+    },
+    getMovieDetail(state, action) {
+      state.movieDetail = action.payload.movieDetail;
+    },
+    getMovieReview(state, action) {
+      state.movieReview = action.payload.movieReview;
+    },
+    getMovieRecommend(state, action) {
+      state.movieRecommend = action.payload.movieRecommend;
     }
   }
 }) 

@@ -1,6 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
 
+export const Banner = ({ movie }) => {
+
+  return (
+    <BannerWrapper poster={movie.poster_path}>
+      <BannerInfo>
+        <h1 style={{"color":"white"}}>{movie.title}</h1>
+        <p style={{"color":"white"}}>{movie.overview}</p>
+      </BannerInfo>
+    </BannerWrapper>
+  );
+};
+
 const BannerWrapper = styled.div`
   height: 600px;
   display: flex;
@@ -23,15 +35,3 @@ const BannerInfo = styled.div`
   margin-left: 30px;
   z-index: 1;
 `;
-
-export const Banner = ({ movie }) => {
-
-  return (
-    <BannerWrapper poster={movie.poster_path}>
-      <BannerInfo>
-        <h1 style={{"color":"white"}}>{movie.title}</h1>
-        <p style={{"color":"white"}}>{movie.overview}</p>
-      </BannerInfo>
-    </BannerWrapper>
-  );
-};

@@ -15,16 +15,16 @@
   height: 200px;
   background-size: contain;
   background-repeat: no-repeat;
-  transition: transform 0.3s ease-in-out;
+  /* transition: transform 0.3s ease-in-out; */
 }
-.card_item:hover {
+/* .card_item:hover {
   width: 500px;
   height: 300px;
-}
+} */
 
 .overlay {
   opacity: 0;
-}
+} 
 
 .card_item:hover .overlay {
   opacity: 1;
