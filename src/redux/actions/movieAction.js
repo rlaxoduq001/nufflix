@@ -64,8 +64,30 @@ function getMovieRecommend(id) {
         movieRecommend:movieRecommendApi.data
       }));
     } catch (error) {
+      console.log(error);
     }
   }
 }
 
-export const movieAction = { getMovies, getMovieDetail, getMovieReview, getMovieRecommend };
+function getMovieYoutube(id) {
+  return async (dispatch) => {
+    try {
+      const movieYoutubeApi = await api.get(`/movie/${id.id}/videos`);
+      dispatch(movieSliceActions.getMovieYoutube({
+        movieYoutube:movieYoutubeApi.data
+      }))
+      console.log(movieYoutubeApi.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}
+
+
+export const movieAction = { 
+  getMovies, 
+  getMovieDetail, 
+  getMovieReview, 
+  getMovieRecommend, 
+  getMovieYoutube 
+};

@@ -24,7 +24,6 @@ const responsive = {
 };
 
 export const MovieSlide = ({movies}) => {
-  console.log(movies);
   return (
     <div>
       {movies && movies.results && movies.results.length > 0 &&

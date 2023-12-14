@@ -12,35 +12,39 @@ import { faPeopleGroup,faFire,faHandcuffs,faVideo } from '@fortawesome/free-soli
 import Button from 'react-bootstrap/Button';
 import { Review } from '../component/Review';
 import { MovieSlide } from '../component/MovieSlide';
+import Modal from 'react-bootstrap/Modal';
 
 export const MovieDetail = () => {
   const {id} = useParams();
   const dispatch = useDispatch();
   const [tabKey , setTabKey] = useState('tab1');
-  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-  const movieDetail = useSelector((state) => state.movie.movieDetail);
-  const movieReview = useSelector((state) => state.movie.movieReview);
-  const movieRecommend = useSelector((state) => state.movie.movieRecommend);
+  const [modalShow, setModalShow] = useState(false);
+
+  const movieDetail = useSelector((state) => state.movie.movieDetail || {});
+  const movieReview = useSelector((state) => state.movie.movieReview || {});
+  const movieRecommend = useSelector((state) => state.movie.movieRecommend || {});
+  const movieYoutube = useSelector((state) => state.movie.movieYoutube || {});
 
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    
     dispatch(movieAction.getMovieDetail({id:id}));
-    if(tabKey === "tab1") {
-      dispatch(movieAction.getMovieReview({id:id}));
-    }else {
-      dispatch(movieAction.getMovieRecommend({id:id}));
-    } 
-  },[id,tabKey]);
+    dispatch(movieAction.getMovieReview({id:id}));
+    dispatch(movieAction.getMovieRecommend({id:id}));
+  },[id,dispatch]);
 
-  const getReview = (tabKey) => {
-    setIsButtonDisabled(true);
+  const getReview = (e,tabKey) => {
+    e.preventDefault();
     if( tabKey === "tab1" ) {
       setTabKey('tab1');
     }else {
       setTabKey('tab2');
-    }
-    setTimeout(() => {
-      setIsButtonDisabled(false);
-    }, 1000);
+    } 
+  } 
+
+  const openModal = () => {
+    setModalShow(true);
+    dispatch(movieAction.getMovieYoutube({id:id}));
   }
 
   return (
@@ -49,7 +53,9 @@ export const MovieDetail = () => {
         <Row>
           <Col>
             <BackgroundImg
-              src={movieDetail ? `https://image.tmdb.org/t/p/w300_and_h450_bestv2/${movieDetail?.poster_path}`: ""}
+              src={movieDetail && movieDetail.poster_path ? 
+                `https://image.tmdb.org/t/p/w300_and_h450_bestv2/${movieDetail.poster_path}` : 
+                "https://cdn2.iconfinder.com/data/icons/admin-tools-2/25/image2-512.png"}
             />
           </Col>
           <Col>
@@ -79,7 +85,7 @@ export const MovieDetail = () => {
               <IconWarp>
                 <FontAwesomeIcon icon={faHandcuffs} style={{color: "darkgray"}}/> {movieDetail?.adult ? "청불":"under 19" }
               </IconWarp>
-              <IconWarp>
+              <IconWarp onClick={() => openModal()}>
                 <FontAwesomeIcon icon={faVideo} /> 트레일러 재생
               </IconWarp>
             </ContentContainer>
@@ -98,17 +104,15 @@ export const MovieDetail = () => {
             </ContentContainer>
           </Col>
         </Row>
-        <Row>
+        <Row style={{paddingBottom: "50px"}}>
           <TabContainer>
             <Button variant={tabKey === "tab1"? "primary" : "secondary" }
-              disabled={isButtonDisabled}
               style={{flex:"1"}} 
-              onClick={()=> getReview('tab1')} 
+              onClick={(e)=> getReview(e,'tab1')} 
               >리뷰</Button>
             <Button variant={tabKey === "tab2"? "primary" : "secondary"}
-              disabled={isButtonDisabled}
               style={{flex:"1"}} 
-              onClick={()=> getReview('tab2')} 
+              onClick={(e)=> getReview(e,'tab2')} 
               >추천</Button>
           </TabContainer>
           {tabKey === "tab1" ? 
@@ -118,19 +122,42 @@ export const MovieDetail = () => {
                   <Review key={idx} data={item} />
                 ))
               : 
-              <div style={{display:"flex", justifyContent:"center"}}>
-                <h1>리뷰가 없습니다</h1>
+              <div style={{display:"flex", justifyContent:"center", padding:"30px"}}>
+                <h1>리뷰가 없습니다.</h1>
               </div>
               }
               
             </PanelContainer>  
-             :
+             : 
             <PanelContainer style={{padding:"30px"}}>
-              ${movieRecommend.results && movieRecommend.results.length <= 0 ? '업성':<MovieSlide movies={movieRecommend}/>}
+              {movieRecommend.results && movieRecommend.results.length > 0 ? 
+                <MovieSlide movies={movieRecommend}/>
+              :
+                <div style={{display:"flex", justifyContent:"center", padding:"30px"}}>
+                  <h1>추천 영화가 없습니다.</h1>
+                </div>
+              }
               
             </PanelContainer>
            }
         </Row>
+        <div>
+        <Modal show={modalShow} onHide={()=>setModalShow(false)} dialogClassName="modal-lg" style={{display:"flex"}}>
+          <Modal.Header closeButton>
+            <Modal.Title>{movieDetail?.title}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {movieYoutube && movieYoutube.results && movieYoutube.results.length > 0 ? (
+              <iframe
+              width="100%"
+              height="615"
+              src={`https://www.youtube.com/embed/${movieYoutube.results[0].key}`}
+              title="영상" 
+              allowFullScreen
+            /> ) : null}
+          </Modal.Body>
+        </Modal>
+        </div>
       </Container>
     </div>
   )

@@ -17,15 +17,15 @@ export const Home = () => {
     <div className='home_container'>
       { popularMovies.results && <Banner movie={popularMovies.results[0]} /> }
       <div className='item_list'>
-        <h1>Popular Movie</h1>
+        <h1>인기 영화</h1>
         <MovieSlide movies={popularMovies}/>
       </div>
         <div className='item_list'>
-      <h1>Top reted Moive</h1>
+      <h1>최신 영화</h1>
       <MovieSlide movies={topRatedMovies}/>
       </div>
         <div className='item_list'>
-      <h1>Upcoming Movies</h1>
+      <h1>개봉 영화</h1>
       <MovieSlide movies={upComingMovies}/>
        </div>
     </div>
