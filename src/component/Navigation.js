@@ -4,14 +4,16 @@ import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 
 export const Navigation = () => {
+  const navigate = useNavigate();
+
   return (
     <div>
       <Navbar expand="lg" variant='dark' bg="black">
         <Container fluid>
-          <Navbar.Brand href="#">
+          <Navbar.Brand>
             <img 
               width={100}
               src="https://variety.com/wp-content/uploads/2019/02/netflix-logo-originals.jpg?w=640"
@@ -26,7 +28,7 @@ export const Navigation = () => {
               navbarScroll
             >
               <Link to="/" className="nav_item">Home</Link>
-              <Link to="movies" className="nav_item">Movies</Link>
+              <Link to="/" className="nav_item">Movies</Link>
             </Nav>
             <Form className="d-flex">
               <Form.Control
@@ -34,6 +36,7 @@ export const Navigation = () => {
                 placeholder="Search"
                 className="me-2"
                 aria-label="Search"
+                onClick={() => navigate('/search')}
               />
               {/* <Button variant="danger">Search</Button> */}
             </Form>

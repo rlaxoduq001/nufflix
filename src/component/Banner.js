@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from 'react-bootstrap';
 import styled from 'styled-components';
 
 export const Banner = ({ movie }) => {
@@ -8,6 +9,7 @@ export const Banner = ({ movie }) => {
       <BannerInfo>
         <h1 style={{"color":"white"}}>{movie.title}</h1>
         <p style={{"color":"white"}}>{movie.overview}</p>
+        <Button variant="light">자세히 보기</Button>
       </BannerInfo>
     </BannerWrapper>
   );
