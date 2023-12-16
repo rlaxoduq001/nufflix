@@ -18,6 +18,7 @@ export const Navigation = () => {
               width={100}
               src="https://variety.com/wp-content/uploads/2019/02/netflix-logo-originals.jpg?w=640"
               alt="logo"
+              onClick={ () => navigate('/')}
               />
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
