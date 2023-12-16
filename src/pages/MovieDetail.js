@@ -59,7 +59,7 @@ export const MovieDetail = () => {
             />
           </Col>
           <Col xs={12} md={6}>
-            <BadgeContainer>
+            <BadgeContainer style={{flexWrap: "wrap"}}>
               {movieDetail.genres?.map((item,idx) => (
                 <Badge style={{ fontSize: '1.5em', padding: '0.5em' }} bg="danger" key={idx}>
                  {item.name}

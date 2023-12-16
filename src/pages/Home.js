@@ -20,13 +20,13 @@ export const Home = () => {
         <h1>인기 영화</h1>
         <MovieSlide movies={popularMovies}/>
       </div>
-        <div className='item_list'>
-      <h1>최신 영화</h1>
-      <MovieSlide movies={topRatedMovies}/>
+      <div className='item_list'>
+        <h1>최신 영화</h1>
+        <MovieSlide movies={topRatedMovies}/>
       </div>
-        <div className='item_list'>
-      <h1>개봉 영화</h1>
-      <MovieSlide movies={upComingMovies}/>
+      <div className='item_list'>
+        <h1>개봉 영화</h1>
+        <MovieSlide movies={upComingMovies}/>
        </div>
     </div>
   )
