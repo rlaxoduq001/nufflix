@@ -8,7 +8,12 @@ let initialState = {
   movieDetail : {},
   movieReview : {},
   movieRecommend: {},
-  movieYoutube: {}
+  movieYoutube: {},
+  movieSearch: {
+    results : []
+  },
+  movieSearchTest : [],
+  isLoading: false
 }
  
 const movieSlice = createSlice({
@@ -23,7 +28,7 @@ const movieSlice = createSlice({
     },
     getMovieDetail(state, action) {
       state.movieDetail = action.payload.movieDetail;
-    },
+    }, 
     getMovieReview(state, action) {
       state.movieReview = action.payload.movieReview;
     },
@@ -32,6 +37,16 @@ const movieSlice = createSlice({
     },
     getMovieYoutube(state, action) {
       state.movieYoutube = action.payload.movieYoutube;
+    },
+    getMovieSearch(state, action) {
+      console.log(action);
+      state.movieSearch = { 
+        ...state.movieSearch,
+        ...action.payload.movieSearch ,
+        results: [...state.movieSearch.results, ...action.payload.movieSearch.results]
+      };
+      console.log(state.movieSearch);
+      state.isLoading = true;
     }
   }
 }) 
