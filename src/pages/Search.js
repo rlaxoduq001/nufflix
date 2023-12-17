@@ -15,29 +15,40 @@ export const Search = () => {
   const dispatch = useDispatch();
   const [ searchKeyword, setSearchKeyword ] = useState('');
   const [ searchPage , setSearchPage ] = useState(1);
+  const [loading, setLoading] = useState(false); // 로딩 상태 추가
   const movieSearch = useSelector((state) => state.movie.movieSearch || {});
-
+  
   const handleInputChange = (keyword) => {
     setSearchKeyword(keyword);
+    sessionStorage.setItem('searchKeyword', keyword);
+    sessionStorage.setItem('page', 1);
   }
 
   const debouncedSearch = useCallback(
     debounce((keyword) => {
+      setSearchPage(1);
       dispatch(movieAction.getMovieSearch({ keyword: keyword, page : searchPage ,more: false }));
     }, 300),
     [dispatch]
-  )
+  );
   
   const handleIntersect = () => {
     // 여기에서 새로운 페이지의 데이터를 불러오는 함수 호출
-    console.log('Intersection occurred! Load more data...');
-    setSearchPage((searchPage) => searchPage + 1);
-    dispatch(movieAction.getMovieSearch({ keyword: searchKeyword, page :searchPage, more: true }));
-    // debounce(() => {
-    //   console.log(searchPage);
+    if( loading  || sessionStorage.getItem('page') > movieSearch.total_pages ) {
+      console.log('Intersection skipped');
+      return;
+    }else {
       
+      setLoading(true);
+      setSearchPage((searchPage) => searchPage + 1);
+      console.log('New searchKeyword:', sessionStorage.getItem('searchKeyword'));
+      // setSearchPage(sessionStorage.getItem('page', 1)+1);
+      console.log('New searchPage:', searchPage);
+      dispatch(movieAction.getMovieSearch({ keyword: sessionStorage.getItem('searchKeyword'), page :searchPage+1, more: true }));
 
-    // }, 500)();
+      sessionStorage.setItem('page', searchPage);
+      setLoading(false);
+    }
   };
   
   useEffect(() => {
@@ -50,7 +61,10 @@ export const Search = () => {
   return (
     <Container>
       <SearchContainer>
-        <SearchInput onChange={(e) => handleInputChange(e.target.value)}/>
+        <SearchInput onChange={(e) => handleInputChange(e.target.value)} 
+        
+        value={sessionStorage.getItem('searchKeyword')}
+        />
 
         {/* <div>
           <h1>최근 검색어</h1>

@@ -39,13 +39,21 @@ const movieSlice = createSlice({
       state.movieYoutube = action.payload.movieYoutube;
     },
     getMovieSearch(state, action) {
-      console.log(action);
-      state.movieSearch = { 
-        ...state.movieSearch,
-        ...action.payload.movieSearch ,
-        results: [...state.movieSearch.results, ...action.payload.movieSearch.results]
-      };
-      console.log(state.movieSearch);
+      console.log(action.payload.data.more);
+
+      // 인피니티 스크롤일때 검색
+      if(action.payload.data.more === true ) {
+        state.movieSearch = { 
+          ...state.movieSearch,
+          ...action.payload.movieSearch ,
+          results: [...state.movieSearch.results, ...action.payload.movieSearch.results]
+        };
+        console.log(state.movieSearch);
+      // 일반 검색일때 검색
+      }else {
+        state.movieSearch = action.payload.movieSearch;
+        console.log(state.movieSearch);
+      }
       state.isLoading = true;
     }
   }

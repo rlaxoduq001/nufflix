@@ -84,12 +84,12 @@ function getMovieYoutube(id) {
 }
 
 function getMovieSearch(data) {
-  console.log(data);
   return async (dispatch) => {
     try {
       const movieSearchApi = await api.get(`https://api.themoviedb.org/3/search/movie?query=${data.keyword}&include_adult=false&language=ko&region=KR&page=${data.page}`);
       dispatch(movieSliceActions.getMovieSearch({
-        movieSearch: movieSearchApi.data
+        movieSearch: movieSearchApi.data,
+        data : data
       }))
     } catch (error) {
       console.log(error);
