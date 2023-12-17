@@ -21,6 +21,7 @@ export const Search = () => {
   const handleInputChange = (keyword) => {
     setSearchKeyword(keyword);
     sessionStorage.setItem('searchKeyword', keyword);
+    setSearchPage(1);
     sessionStorage.setItem('page', 1);
   }
 
@@ -38,15 +39,11 @@ export const Search = () => {
       console.log('Intersection skipped');
       return;
     }else {
-      
       setLoading(true);
-      setSearchPage((searchPage) => searchPage + 1);
-      console.log('New searchKeyword:', sessionStorage.getItem('searchKeyword'));
-      // setSearchPage(sessionStorage.getItem('page', 1)+1);
-      console.log('New searchPage:', searchPage);
-      dispatch(movieAction.getMovieSearch({ keyword: sessionStorage.getItem('searchKeyword'), page :searchPage+1, more: true }));
+      const nextPage = Number(sessionStorage.getItem('page')) + 1;
+      dispatch(movieAction.getMovieSearch({ keyword: sessionStorage.getItem('searchKeyword'), page : nextPage, more: true }));
 
-      sessionStorage.setItem('page', searchPage);
+      sessionStorage.setItem('page', nextPage);
       setLoading(false);
     }
   };
@@ -76,14 +73,19 @@ export const Search = () => {
           </div>
         </div> */}
 
-        <Row>
-          {movieSearch.results && movieSearch.results.map((item, key) => (
-            <Col key={key} xs={12} sm={6} md={4} lg={3} xl={2}>
-              <MovieSearchCard item={item}/>
-            </Col>
-          ))}
-        </Row>
-        <InfiniteScroll onIntersect={handleIntersect} />
+      {sessionStorage.getItem('searchKeyword') === "" ? <h1>11</h1>
+        :
+        <div>
+          <Row>
+            {movieSearch.results && movieSearch.results.map((item, key) => (
+              <Col key={key} xs={12} sm={6} md={4} lg={3} xl={2}>
+                <MovieSearchCard item={item}/>
+              </Col>
+            ))}
+          </Row>
+         <InfiniteScroll onIntersect={handleIntersect} />
+        </div>
+        }
       </SearchContainer>
     </Container>
   )

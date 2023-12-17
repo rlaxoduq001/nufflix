@@ -97,11 +97,25 @@ function getMovieSearch(data) {
   }
 }
 
+function sessionData() {
+  return async (dispatch) => {
+    try {
+      await dispatch(movieSliceActions.getSession({
+        page : 1,
+        keyword : ""
+      }))
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}
+
 export const movieAction = { 
   getMovies, 
   getMovieDetail, 
   getMovieReview, 
   getMovieRecommend, 
   getMovieYoutube,
-  getMovieSearch
+  getMovieSearch,
+  sessionData
 };

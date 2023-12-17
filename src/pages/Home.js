@@ -8,9 +8,10 @@ export const Home = () => {
 
   const dispatch = useDispatch();
   const { popularMovies, topRatedMovies, upComingMovies } = useSelector((state) => state.movie);
-
+  const sessionData = useSelector((state) => state.movie.sessionData || {});
   useEffect(() => {
     dispatch(movieAction.getMovies());
+    dispatch(movieAction.sessionData());
   },[]);
 
   return (
