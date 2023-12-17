@@ -16,6 +16,7 @@ export const Search = () => {
   const [ searchKeyword, setSearchKeyword ] = useState('');
   const [ searchPage , setSearchPage ] = useState(1);
   const [loading, setLoading] = useState(false); // 로딩 상태 추가
+  const [recentMovie , setRecentMovie] = useState([]); // 최근 본 영화 가져오기
   const movieSearch = useSelector((state) => state.movie.movieSearch || {});
   
   const handleInputChange = (keyword) => {
@@ -32,6 +33,18 @@ export const Search = () => {
     }, 300),
     [dispatch]
   );
+
+  // 새로고침시 데이터 유지
+  useEffect(() => {
+    const storedKeyword = sessionStorage.getItem('searchKeyword');
+    const storedPage = sessionStorage.getItem('page');
+    if (storedKeyword) {
+      setSearchKeyword(storedKeyword);
+    }
+    if (storedPage) {
+      setSearchPage(parseInt(storedPage, 10));
+    }
+  }, []);
   
   const handleIntersect = () => {
     // 여기에서 새로운 페이지의 데이터를 불러오는 함수 호출
@@ -50,6 +63,8 @@ export const Search = () => {
   
   useEffect(() => {
     if( searchKeyword === "") {
+      setRecentMovie(JSON.parse(localStorage.getItem('movieInfo')) || []);
+      console.log(recentMovie);
       return;
     }
     debouncedSearch(searchKeyword);
@@ -63,17 +78,17 @@ export const Search = () => {
         value={sessionStorage.getItem('searchKeyword')}
         />
 
-        {/* <div>
-          <h1>최근 검색어</h1>
-        </div>
-        <div>
-          <h1>최근 본 영화</h1>
-          <div style={{width: "300px", height:"400px"}}>
-            <MovieSearchCard/>
+      {sessionStorage.getItem('searchKeyword') === "" ? 
+          <div>
+            <h1>최근 본 영화</h1>
+            <Row>
+              {recentMovie && recentMovie.map((item, key) => (
+                  <Col key={key} xs={12} sm={6} md={4} lg={3} xl={2}>
+                    <MovieSearchCard item={item}/>
+                  </Col>
+              ))}
+            </Row>
           </div>
-        </div> */}
-
-      {sessionStorage.getItem('searchKeyword') === "" ? <h1>11</h1>
         :
         <div>
           <Row>

@@ -30,7 +30,6 @@ export const Navigation = () => {
               style={{ maxHeight: '100px' }}
               navbarScroll
             >
-              <Link to="/" className="nav_item">Home</Link>
               <Link to="/" className="nav_item">Movies</Link>
             </Nav>
             <Form className="d-flex">
@@ -38,14 +37,6 @@ export const Navigation = () => {
                 style={{fontSize: "50px",color: "white"}}
                 onClick={() => navigate('/search')}
                 />
-              {/* <Form.Control
-                type="search"
-                placeholder="Search"
-                className="me-2"
-                aria-label="Search"
-                onClick={() => navigate('/search')}
-              /> */}
-              {/* <Button variant="danger">Search</Button> */}
             </Form>
           </Navbar.Collapse>
         </Container>

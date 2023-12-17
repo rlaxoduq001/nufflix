@@ -26,6 +26,20 @@ export const MovieDetail = () => {
   const movieYoutube = useSelector((state) => state.movie.movieYoutube || {});
 
   useEffect(() => {
+    const storedData = localStorage.getItem('movieInfo');
+    const movieObj = storedData ? JSON.parse(storedData) : [];
+    
+    const isDuplicate = movieObj.some((item) => item.id === movieDetail.id);
+ 
+    // 중복되지 않는 경우에만 추가
+    if (!isDuplicate) {
+      movieObj.push(movieDetail);
+      localStorage.setItem('movieInfo', JSON.stringify(movieObj));
+    }
+    console.log(movieObj);
+  },[]);
+
+  useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     
     dispatch(movieAction.getMovieDetail({id:id}));

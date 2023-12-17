@@ -54,10 +54,9 @@ const movieSlice = createSlice({
       state.isLoading = true;
     },
     getSession(state,action) {
-      console.log("12344");
       state.sessionData = {
-        page : sessionStorage.setItem('page', 1),
-        keyword : sessionStorage.setItem('searchKeyword', "")
+        page : sessionStorage.setItem('page', action.payload.page),
+        keyword : sessionStorage.setItem('searchKeyword', action.payload.keyword)
       }
     }
   }
