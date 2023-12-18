@@ -26,6 +26,20 @@ function getMovies() {
   }
 }
 
+function getGenres() {
+  return async (dispatch) => {
+    try {
+      const genreApi = api.get('/genre/movie/list?language=ko&region=KR');
+
+      dispatch(movieSliceActions.getGenres({
+        genreList : genreApi.data.genres
+      })); 
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}
+
 function getMovieDetail({id}) {
   return async (dispatch) => {
     try {
@@ -34,6 +48,21 @@ function getMovieDetail({id}) {
       dispatch(movieSliceActions.getMovieDetail({
         movieDetail:movieDetailApi.data,
       }));
+      
+      // detail 데이터 최근본영화에 뿌려주기 위해 넣기
+      const localStorageData = JSON.parse(localStorage.getItem('myLocalStorageData')) || [];
+      const newData = movieDetailApi.data;
+      
+      // 중복된 데이터 확인
+      const isDuplicate = localStorageData.some(item => item.id === newData.id);
+      
+      if (!isDuplicate) {
+        localStorageData.push(newData);
+        if (localStorageData.length > 6) {
+          localStorageData.shift();
+        }
+        localStorage.setItem('myLocalStorageData', JSON.stringify(localStorageData));
+      }
       
     } catch (error) {
       console.log(error);
@@ -97,25 +126,12 @@ function getMovieSearch(data) {
   }
 }
 
-function sessionData() {
-  return async (dispatch) => {
-    try {
-      await dispatch(movieSliceActions.getSession({
-        page : 1,
-        keyword : ""
-      }))
-    } catch (error) {
-      console.log(error);
-    }
-  }
-}
-
 export const movieAction = { 
   getMovies, 
+  getGenres,
   getMovieDetail, 
   getMovieReview, 
   getMovieRecommend, 
   getMovieYoutube,
-  getMovieSearch,
-  sessionData
+  getMovieSearch
 };

@@ -27,6 +27,9 @@ const movieSlice = createSlice({
       state.upComingMovies = action.payload.upComingMovies;
       state.genreList = action.payload.genreList;
     },
+    getGenres(state, action) {
+      state.genreList = action.payload.genreList;
+    },
     getMovieDetail(state, action) {
       state.movieDetail = action.payload.movieDetail;
     }, 
@@ -52,12 +55,6 @@ const movieSlice = createSlice({
         state.movieSearch = action.payload.movieSearch;
       }
       state.isLoading = true;
-    },
-    getSession(state,action) {
-      state.sessionData = {
-        page : sessionStorage.setItem('page', action.payload.page),
-        keyword : sessionStorage.setItem('searchKeyword', action.payload.keyword)
-      }
     }
   }
 }) 

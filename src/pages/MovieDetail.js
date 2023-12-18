@@ -13,31 +13,33 @@ import Button from 'react-bootstrap/Button';
 import { Review } from '../component/Review';
 import { MovieSlide } from '../component/MovieSlide';
 import Modal from 'react-bootstrap/Modal';
+import { webStorageAction } from '../redux/actions/webStorageAction';
 
 export const MovieDetail = () => {
   const {id} = useParams();
   const dispatch = useDispatch();
   const [tabKey , setTabKey] = useState('tab1');
   const [modalShow, setModalShow] = useState(false);
+  // const [isFirst, setIsFirst] = useState(true)
 
   const movieDetail = useSelector((state) => state.movie.movieDetail || {});
   const movieReview = useSelector((state) => state.movie.movieReview || {});
   const movieRecommend = useSelector((state) => state.movie.movieRecommend || {});
   const movieYoutube = useSelector((state) => state.movie.movieYoutube || {});
-
-  useEffect(() => {
-    const storedData = localStorage.getItem('movieInfo');
-    const movieObj = storedData ? JSON.parse(storedData) : [];
-    
-    const isDuplicate = movieObj.some((item) => item.id === movieDetail.id);
- 
-    // 중복되지 않는 경우에만 추가
-    if (!isDuplicate) {
-      movieObj.push(movieDetail);
-      localStorage.setItem('movieInfo', JSON.stringify(movieObj));
-    }
-    console.log(movieObj);
-  },[]);
+  
+  // useEffect(() => {
+  //   console.log("1234");
+  //   const storedData = localStorage.getItem('movieInfo');
+  //   const movieObj = storedData ? JSON.parse(storedData) : [];
+  
+  //   const isDuplicate = movieObj.some((item) => item.id === movieDetail.id);
+  
+  //   // 중복되지 않는 경우에만 추가
+  //   if (!isDuplicate) {
+  //     movieObj.push(movieDetail);
+  //     localStorage.setItem('movieInfo', JSON.stringify(movieObj));
+  //   }
+  // }, []);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });

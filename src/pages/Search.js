@@ -11,7 +11,6 @@ import Col from 'react-bootstrap/Col';
 import { InfiniteScroll } from '../component/InfiniteScroll';
 
 export const Search = () => {
-  
   const dispatch = useDispatch();
   const [ searchKeyword, setSearchKeyword ] = useState('');
   const [ searchPage , setSearchPage ] = useState(1);
@@ -35,16 +34,17 @@ export const Search = () => {
   );
 
   // 새로고침시 데이터 유지
-  useEffect(() => {
-    const storedKeyword = sessionStorage.getItem('searchKeyword');
-    const storedPage = sessionStorage.getItem('page');
-    if (storedKeyword) {
-      setSearchKeyword(storedKeyword);
-    }
-    if (storedPage) {
-      setSearchPage(parseInt(storedPage, 10));
-    }
-  }, []);
+  // useEffect(() => {
+  //   const storedKeyword = sessionStorage.getItem('searchKeyword');
+  //   const storedPage = sessionStorage.getItem('page');
+  //   if (storedKeyword) {
+  //     setSearchKeyword(storedKeyword);
+  //   }
+  //   if (storedPage) {
+  //     setSearchPage(parseInt(storedPage, 1));
+  //   }
+  // }, []);
+  
   
   const handleIntersect = () => {
     // 여기에서 새로운 페이지의 데이터를 불러오는 함수 호출
@@ -63,8 +63,7 @@ export const Search = () => {
   
   useEffect(() => {
     if( searchKeyword === "") {
-      setRecentMovie(JSON.parse(localStorage.getItem('movieInfo')) || []);
-      console.log(recentMovie);
+      setRecentMovie(JSON.parse(localStorage.getItem('myLocalStorageData')));
       return;
     }
     debouncedSearch(searchKeyword);
@@ -82,7 +81,7 @@ export const Search = () => {
           <div>
             <h1>최근 본 영화</h1>
             <Row>
-              {recentMovie && recentMovie.map((item, key) => (
+              {recentMovie && recentMovie.reverse().map((item, key) => (
                   <Col key={key} xs={12} sm={6} md={4} lg={3} xl={2}>
                     <MovieSearchCard item={item}/>
                   </Col>

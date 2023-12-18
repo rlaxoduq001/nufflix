@@ -3,15 +3,15 @@ import { movieAction } from '../redux/actions/movieAction'
 import { useDispatch, useSelector } from 'react-redux'
 import { Banner } from '../component/Banner';
 import { MovieSlide } from '../component/MovieSlide';
-
+import { webStorageAction } from '../redux/actions/webStorageAction';
 export const Home = () => {
 
   const dispatch = useDispatch();
   const { popularMovies, topRatedMovies, upComingMovies } = useSelector((state) => state.movie);
-  const sessionData = useSelector((state) => state.movie.sessionData || {});
+  // const sessionData = useSelector((state) => state.movie.sessionData || {});
   useEffect(() => {
     dispatch(movieAction.getMovies());
-    dispatch(movieAction.sessionData());
+    dispatch(webStorageAction.sessionData());
   },[]);
 
   return (

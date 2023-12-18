@@ -1,16 +1,17 @@
 import React from 'react'
-import styled from 'styled-components'
 import { Button } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
-
+import { useSelector } from 'react-redux'
 export const MovieSearchCard = (item) => {
-
-  let movieItems = item.item;
+  
+  const movieItems = item.item;
   const navigate = useNavigate();
   const showDetail = () => {
     navigate(`/movies/${movieItems.id}`, {state: {movieItems}});
   }
-
+  const genreList = useSelector((state) => state.movie.genreList);
+  console.log("genreList", genreList);
+  
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', padding : "4px 0" }}
         onClick={() => showDetail()}>
@@ -32,15 +33,11 @@ export const MovieSearchCard = (item) => {
           ❤{item.item.vote_average}
         </h6>
         <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-          <Button variant="light" style={{ fontSize: '12px', padding: '4px', margin: '4px' }}>
-            액션
-          </Button>
-          <Button variant="light" style={{ fontSize: '12px', padding: '4px', margin: '4px' }}>
-            로맨스
-          </Button>
-          <Button variant="light" style={{ fontSize: '12px', padding: '4px', margin: '4px' }}>
-            공포
-          </Button>
+          {item.item.genres && item.item.genres.map((item, idx) => (
+            <Button key={idx} variant="secondary" style={{ fontSize: '12px', padding: '4px', margin: '4px' }}>
+              {item.name}
+            </Button>
+          ))}
         </div>
       </div>
     </div>
