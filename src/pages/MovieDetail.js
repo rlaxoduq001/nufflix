@@ -13,14 +13,12 @@ import Button from 'react-bootstrap/Button';
 import { Review } from '../component/Review';
 import { MovieSlide } from '../component/MovieSlide';
 import Modal from 'react-bootstrap/Modal';
-import { webStorageAction } from '../redux/actions/webStorageAction';
 
 export const MovieDetail = () => {
   const {id} = useParams();
   const dispatch = useDispatch();
   const [tabKey , setTabKey] = useState('tab1');
   const [modalShow, setModalShow] = useState(false);
-  // const [isFirst, setIsFirst] = useState(true)
 
   const movieDetail = useSelector((state) => state.movie.movieDetail || {});
   const movieReview = useSelector((state) => state.movie.movieReview || {});

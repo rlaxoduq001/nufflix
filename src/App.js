@@ -5,6 +5,7 @@ import { Home } from './pages/Home';
 import { Navigation } from './component/Navigation';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Search } from './pages/Search';
+import { MyContents } from './pages/MyContents';
 
 function App() {
   
@@ -14,6 +15,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />}/>
         <Route path='/search' element={<Search />}/>
+        <Route path='/myContents' element={<MyContents />}/>
         <Route path='/movies/:id' element={<MovieDetail />}/>
       </Routes>
     </div>

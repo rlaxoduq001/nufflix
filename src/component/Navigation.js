@@ -31,6 +31,7 @@ export const Navigation = () => {
               navbarScroll
             >
               <Link to="/" className="nav_item">Movies</Link>
+              <Link to="/myContents" className="nav_item">MyContents</Link>
             </Nav>
             <Form className="d-flex">
               <FontAwesomeIcon icon={faSearch} 

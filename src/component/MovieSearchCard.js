@@ -1,17 +1,36 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import Badge from 'react-bootstrap/Badge';
+import { useDispatch } from 'react-redux';
+import { webStorageAction } from '../redux/actions/webStorageAction';
+
 export const MovieSearchCard = (item) => {
-  
   const movieItems = item.item;
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [checkMyContent, setCheckMyContent] = useState(false);
   const showDetail = () => {
     navigate(`/movies/${movieItems.id}`, {state: {movieItems}});
   }
   const genreList = useSelector((state) => state.movie.genreList);
-  console.log("genreList", genreList);
-  
+
+  const addMycontent = (e) => {
+    e.stopPropagation();
+    setCheckMyContent((prevCheckMyContent) => !prevCheckMyContent);
+    dispatch(webStorageAction.myContentsLocalStorage({ movieDetail : item.item }));
+  }
+
+  const mycontentsData = useSelector((state) => state.webStorage.localStorageData);
+
+  useEffect(()=> {
+    dispatch(webStorageAction.getMyContents());
+    const result = mycontentsData.some((myContentItem) => myContentItem.id === movieItems.id);
+    
+    setCheckMyContent(result);
+  },[dispatch,checkMyContent])
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', padding : "4px 0" }}
         onClick={() => showDetail()}>
@@ -25,6 +44,7 @@ export const MovieSearchCard = (item) => {
           alt="img"
         />
       </div>
+
       <div style={{ background: 'currentColor', padding: '8px' }}>
         <h5 style={{ color: 'white', marginBottom: '4px', fontSize: '16px' }}>
           {item.item.title}
@@ -33,11 +53,33 @@ export const MovieSearchCard = (item) => {
           ❤{item.item.vote_average}
         </h6>
         <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+
           {item.item.genres && item.item.genres.map((item, idx) => (
-            <Button key={idx} variant="secondary" style={{ fontSize: '12px', padding: '4px', margin: '4px' }}>
+            <Badge key={idx} variant="secondary" style={{ fontSize: '12px', padding: '4px', margin: '4px' }}>
               {item.name}
-            </Button>
+            </Badge>
           ))}
+
+          {item.item.genre_ids && item.item.genre_ids.map((id, idx) => {
+            const genre = genreList.find((item) => item.id === id)
+            return genre ? (
+              <Badge bg="info" key={idx} style={{ fontSize: '12px', padding: '4px', margin: '4px' }}>
+                {genre.name}
+              </Badge>
+            ) : null;
+          })}
+        </div>
+        <div>
+          {checkMyContent === false? 
+            <Button variant="success" style={{fontSize: '15px', width: "100%", marginTop: "4px"}}
+              onClick={(e) => addMycontent(e)}>
+              My content add
+            </Button>
+          :
+          <Button variant="danger" style={{fontSize: '15px', width: "100%", marginTop: "4px"}}>
+            My content remove
+          </Button>
+          }
         </div>
       </div>
     </div>

@@ -2,9 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 let initialState = {
   sessionData : {},
-  localStorageData : {
-    data : [],
-  }
+  localStorageData : []
 }
 
 const webStorageSlice = createSlice({
@@ -16,6 +14,9 @@ const webStorageSlice = createSlice({
         page : sessionStorage.setItem('page', action.payload.page),
         keyword : sessionStorage.setItem('searchKeyword', action.payload.keyword)
       }
+    },
+    getLocalStorage(state,action) {
+      state.localStorageData = action.payload.movieInfo || [];
     }
   }
 }) 
