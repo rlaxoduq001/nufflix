@@ -72,14 +72,15 @@ export const Search = () => {
   return (
     <Container>
       <SearchContainer>
-        <SearchInput onChange={(e) => handleInputChange(e.target.value)} 
+        <SearchInput placeholder='검색어를 입력해주세요.'
+          onChange={(e) => handleInputChange(e.target.value)} 
         
         value={sessionStorage.getItem('searchKeyword')}
         />
 
       {sessionStorage.getItem('searchKeyword') === "" ? 
           <div>
-            <h1>최근 본 영화</h1>
+            <h1 style={{padding: "20px 0"}}>최근 본 영화</h1>
             <Row>
               {recentMovie && recentMovie.reverse().map((item, key) => (
                   <Col key={key} xs={12} sm={6} md={4} lg={3} xl={2}>
@@ -118,6 +119,6 @@ const SearchInput = styled.input`
   margin: auto;
   max-width: 100%;
   width: 100%;
-  border-radius: 100px;
+  // border-radius: 100px;
   padding: 30px;
 `

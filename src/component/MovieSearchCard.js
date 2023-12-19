@@ -9,27 +9,23 @@ import { webStorageAction } from '../redux/actions/webStorageAction';
 export const MovieSearchCard = (item) => {
   const movieItems = item.item;
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const [checkMyContent, setCheckMyContent] = useState(false);
+  // const [checkMyContent, setCheckMyContent] = useState(false);
+
   const showDetail = () => {
     navigate(`/movies/${movieItems.id}`, {state: {movieItems}});
   }
   const genreList = useSelector((state) => state.movie.genreList);
 
-  const addMycontent = (e) => {
-    e.stopPropagation();
-    setCheckMyContent((prevCheckMyContent) => !prevCheckMyContent);
-    dispatch(webStorageAction.myContentsLocalStorage({ movieDetail : item.item }));
-  }
+  // const addMycontent = (e) => {
+  //   e.stopPropagation();
 
-  const mycontentsData = useSelector((state) => state.webStorage.localStorageData);
+  //   setCheckMyContent((prevCheckMyContent) => !prevCheckMyContent);
+  // }
 
-  useEffect(()=> {
-    dispatch(webStorageAction.getMyContents());
-    const result = mycontentsData.some((myContentItem) => myContentItem.id === movieItems.id);
-    
-    setCheckMyContent(result);
-  },[dispatch,checkMyContent])
+  // useEffect(()=> {
+  //   const storedData = JSON.parse(localStorage.getItem('myLocalStorageData')) || [];
+  //   console.log(storedData);
+  // },[])
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', padding : "4px 0" }}
@@ -68,8 +64,8 @@ export const MovieSearchCard = (item) => {
               </Badge>
             ) : null;
           })}
-        </div>
-        <div>
+        </div> 
+        {/* <div>
           {checkMyContent === false? 
             <Button variant="success" style={{fontSize: '15px', width: "100%", marginTop: "4px"}}
               onClick={(e) => addMycontent(e)}>
@@ -80,50 +76,9 @@ export const MovieSearchCard = (item) => {
             My content remove
           </Button>
           }
-        </div>
+        </div> */}
       </div>
     </div>
 
-    
-    // <div className='test2'>
-    //   <div className='test' style={{
-    //     backgroundImage : "url('https://image.tmdb.org/t/p/w300_and_h450_bestv2//7Bd4EUOqQDKZXA6Od5gkfzRNb0.jpg')"
-    //     // backgroundImage: item.backdrop_path !== null ?
-    //     // `url(https://www.themoviedb.org/t/p/w250_and_h141_face/${item.backdrop_path})` :
-    //     // 'url(https://icon-library.com/images/none-icon/none-icon-1.jpg)'
-    //   }}>
-    //     <span className='closeButton'>⨉</span>
-    //   </div>
-    //   <div style={{background:"darkGray", padding: "8px"}}>
-    //     <h5>책 제목</h5>
-    //     <h6>평점</h6>
-    //     <Button variant="light" style={{ fontSize: '12px', padding: "4px", margin:"4px"}}>액션</Button>
-    //     <Button variant="light" style={{ fontSize: '12px', padding: "4px", margin:"4px"}}>로맨스</Button>
-    //     <Button variant="light" style={{ fontSize: '12px', padding: "4px", margin:"4px"}}>공포</Button>
-    //   </div>
-    // </div>
-//     .test {
-//   width: 100%;
-//   height: 100%;
-//   background-size: cover;
-//   background-position: center;
-//   background-repeat: no-repeat;
-// }
-
-// .test2 {
-//   position: relative;
-//   width: 200px;
-//   height: 300px; 
-// }
-
-// .closeButton {
-//   background-color: black;
-//   position: absolute;
-//   top: 8px;
-//   right: 8px;
-//   font-size: 20px;
-//   color: white;
-//   cursor: pointer;
-// }
   )
 }

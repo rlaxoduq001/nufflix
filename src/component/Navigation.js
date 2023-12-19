@@ -27,11 +27,11 @@ export const Navigation = () => {
           <Navbar.Collapse id="navbarScroll">
             <Nav
               className="me-auto my-2 my-lg-0"
-              style={{ maxHeight: '100px' }}
+              style={{ maxHeight: '100px',color:'white' }}
               navbarScroll
             >
-              <Link to="/" className="nav_item">Movies</Link>
-              <Link to="/myContents" className="nav_item">MyContents</Link>
+              <Link to="/" className="nav_item text-decoration-none text-reset">Movies</Link>
+              {/* <Link to="/myContents" className="nav_item text-decoration-none text-reset">MyContents</Link> */}
             </Nav>
             <Form className="d-flex">
               <FontAwesomeIcon icon={faSearch} 
